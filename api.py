@@ -9,7 +9,12 @@ app = Flask(__name__)
 def index():
 	return """<h1>API</h1>
 	<ul>
-	<li><b>/image/list</b> = List all images</li>
+	<li><b>/image/list</b> = List all images (limited to 25 in each request)
+		<ul>
+			<li><i>page</i> (optional) = page number</li>
+			<li><i>tags</i> (optional) = select only images that contains the specified tags</li>
+		</ul>
+	</li>
 	"""
 
 @app.route('/image/list', methods=['GET'])
