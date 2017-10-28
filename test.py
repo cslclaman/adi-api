@@ -8,6 +8,7 @@ def create_image():
 
 def get_images():
 	ctr = ImageControl()
-	ctr.getImages()
+	for image in ctr.get_image_list():
+		print(image)
 
 get_images()
