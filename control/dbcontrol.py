@@ -13,13 +13,15 @@ class ImageControl:
         self.__con = MySQL.connect(user=USER, password=PASS, host=HOST, database=DB)
         self.__cursor = self.__con.cursor()
 
-    def getImages(self):
-        lista = []
+    def get_image_list(self):
+        listImages = []
         try:
             self.__cursor.execute("SELECT * FROM Image")
             results = self.__cursor.fetchall()
             for row in results:
-                print(row)
-                #image = Image(row)
+                image = Image(row)
+                listImages.append(image)
         except MySQL.Error as err:
             print(err)
+
+        return listImages;
