@@ -8,6 +8,8 @@ USER = 'appuser'
 PASS = 'ms987654'
 DB = 'adi6_db'
 
+MAX_LIMIT = 50
+
 class ImageControl:
     def __init__(self):
         self.__con = MySQL.connect(user=USER, password=PASS, host=HOST, database=DB)
@@ -16,6 +18,8 @@ class ImageControl:
     def get_image_list(self, tags, pagenum, limit):
         listImages = []
         try:
+            if (limit > MAX_LIMIT): limit = MAX_LIMIT
+            if (limit < 1): limit = 1
             page = (pagenum - 1) * limit
             query = "SELECT * FROM Image WHERE tag_string like \'{0}\' LIMIT {1},{2}".format(("%"+tags+"%"),page,limit)
             self.__cursor.execute(query)
