@@ -10,7 +10,8 @@
     <ul>
         <li><b>/image/list</b> = List all images (limited to 25 in each request)
             <ul>
-                <li><i>page</i> (optional) = page number</li>
+                <li><i>page</i> (optional, default 1) = page number</li>
+                <li><i>limit</i> (optional, default 25, max 50) = page number</li>
                 <li><i>tags</i> (optional) = select only images that contains the specified tags</li>
             </ul>
             <b>Example: </b><i><u>/image/list?tags=(c)touhou&amppage=3</u></i>
