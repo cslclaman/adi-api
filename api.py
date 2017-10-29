@@ -3,19 +3,11 @@ from flask import Flask, jsonify, request
 from model.image import Image
 from control.dbcontrol import ImageControl
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 
 @app.route('/')
 def index():
-	return """<h1>API</h1>
-	<ul>
-	<li><b>/image/list</b> = List all images (limited to 25 in each request)
-		<ul>
-			<li><i>page</i> (optional) = page number</li>
-			<li><i>tags</i> (optional) = select only images that contains the specified tags</li>
-		</ul>
-	</li>
-	"""
+	return app.send_static_file("index.html")
 
 @app.route('/image/list', methods=['GET'])
 def image_list():
