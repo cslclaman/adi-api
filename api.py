@@ -29,15 +29,5 @@ def image_by_id(id):
 	else:
 		return jsonify(image.serialize()), 200
 
-@app.route('/image/get', methods=['GET'])
-def image_get():
-	ctr = ImageControl()
-	md5 = request.args.get('md5', "00000000000000000000000000000000", type=str)
-	image = ctr.get_image_by_md5(md5)
-	if image is None:
-		return jsonify({})
-	else:
-		return image_by_id(image.getId())
-
 if __name__ == "__main__":
 	app.run(debug=True, host="localhost")
