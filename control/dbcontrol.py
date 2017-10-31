@@ -1,19 +1,15 @@
 # -*- coding: utf-8 -*-
+import dbconfig
 from model.image import Image
 from model.imagesource import ImageSource
 from datetime import datetime
 import mysql.connector as MySQL
 
-HOST = 'localhost'
-USER = 'appuser'
-PASS = 'ms987654'
-DB = 'adi6_db'
-
 MAX_LIMIT = 50
 
 class ImageControl:
     def __init__(self):
-        self.__con = MySQL.connect(user=USER, password=PASS, host=HOST, database=DB)
+        self.__con = MySQL.connect(user=dbconfig.user, password=dbconfig.password, host=dbconfig.host, database=dbconfig.database)
         self.__cursor = self.__con.cursor()
 
     def getList(self, tags, pagenum, limit, rating):
