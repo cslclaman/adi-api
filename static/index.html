@@ -8,16 +8,30 @@
     <h1>ADI 6 - Service API</h1>
     <h2>Endpoints</h2>
     <ul>
-        <li><b>/image/list</b> = List all images (limited to 25 in each request)
+        <h3>Image/Image Source</h3>
+        <li><p><b>GET /image/list</b> = List all images (limited to 25 in each request)</p>
+            <p><b>Example: </b><i><u>/image/list?tags=(c)touhou&amppage=3</u></i></p>
+            <p><b>Parameters:</b></p>
             <ul>
                 <li><i>page</i> (optional, default 1) = page number</li>
-                <li><i>limit</i> (optional, default 25, max 50) = page number</li>
+                <li><i>limit</i> (optional, default 25, max 50) = results per page</li>
                 <li><i>tags</i> (optional) = select only images that contains the specified tags</li>
+                <li><i>source</i> (optional, default false) = show images primary source data</li>
             </ul>
-            <b>Example: </b><i><u>/image/list?tags=(c)touhou&amppage=3</u></i>
         </li>
-        <li><b>/image/000</b> = Get a single image with ID 000
-            <b>Example: </b><i><u>/image/10200</u></i>
+        <li><p><b>GET /image/000</b> = Get a single image with ID 000</p>
+            <p><b>Example: </b><i><u>/image/10200</u></i></p>
+            <p><b>Parameters:</b></p>
+            <ul>
+                <li><i>source</i> (optional, default false) = show image primary source data</li>
+            </ul>
+        </li>
+        <li><p><b>GET /imagesource/000</b> = List sources of image identified by ID 000</p>
+            <p><b>Example: </b><i><u>/imagesource/10200?name=Danbooru</u></i></p>
+            <p><b>Parameters:</b></p>
+            <ul>
+                <li><i>name</i> (optional) = filter results by source name</li>
+            </ul>
         </li>
     <ul>
 </body>
