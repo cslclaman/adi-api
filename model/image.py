@@ -11,7 +11,7 @@ class Image:
 		self.__fileSource = row[7]
 		self.__creationDate = row[8]
 		self.__lastUpdate = row[9]
-		#self.__primarySource = row[10]
+		self.__primarySource = row[10];
 		self.__sourceName = row[11]
 
 	def getId(self):
@@ -69,7 +69,12 @@ class Image:
 	def setSourceName(self,sourceName):
 		self.__sourceName = sourceName
 
-	def serialize(self):
+	def getPrimarySourceId(self):
+		return self.__primarySource
+	def setPrimarySourceId(self,primarySource):
+		self.__primarySource = primarySource
+
+	def serialize(self, primarySource):
 		return {
 			"id": self.__id,
 			"md5": self.__md5,
@@ -81,7 +86,7 @@ class Image:
 			"file_source": self.__fileSource,
 			"creation_date": self.__creationDate,
 			"last_update": self.__lastUpdate,
-			#"primary_source": self.__primarySource,
+			"primary_source": primarySource.serialize(),
 			"source_name": self.__sourceName
 		}
 
