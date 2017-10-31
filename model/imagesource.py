@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 class ImageSource:
-	def __init__(self, row, image):
+	def __init__(self, row):
 		self.__id = row[0]
-		self.__image = image
+		self.__image = row[1]
 		self.__sourceName = row[2]
 		self.__sourceId = row[3]
 		self.__postUrl = row[4]

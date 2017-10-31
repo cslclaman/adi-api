@@ -74,8 +74,8 @@ class Image:
 	def setPrimarySourceId(self,primarySource):
 		self.__primarySource = primarySource
 
-	def serialize(self, primarySource):
-		return {
+	def serialize(self, primarySource=None):
+		json = {
 			"id": self.__id,
 			"md5": self.__md5,
 			"file_path": self.__filePath,
@@ -86,9 +86,11 @@ class Image:
 			"file_source": self.__fileSource,
 			"creation_date": self.__creationDate,
 			"last_update": self.__lastUpdate,
-			"primary_source": primarySource.serialize(),
-			"source_name": self.__sourceName
+			"source_name": self.__sourceName,
 		}
+		if primarySource is not None:
+			json["primary_source"] = primarySource.serialize()
+		return json
 
 	def __str__(self):
 		return "{0} - {1} - {2}".format(self.__id, self.__md5, self.__filePath)
