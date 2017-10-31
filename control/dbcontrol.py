@@ -16,13 +16,13 @@ class ImageControl:
         self.__con = MySQL.connect(user=USER, password=PASS, host=HOST, database=DB)
         self.__cursor = self.__con.cursor()
 
-    def getList(self, tags, pagenum, limit):
+    def getList(self, tags, pagenum, limit, rating):
         listImages = []
         try:
             if (limit > MAX_LIMIT): limit = MAX_LIMIT
             if (limit < 1): limit = 1
             page = (pagenum - 1) * limit
-            query = "SELECT * FROM Image WHERE tag_string like \'{0}\' LIMIT {1},{2}".format(("%"+tags+"%"),page,limit)
+            query = "SELECT * FROM Image WHERE tag_string LIKE \'{0}\' AND rating LIKE \'{1}\' LIMIT {2},{3}".format(("%"+tags+"%"),rating,page,limit)
             self.__cursor.execute(query)
             results = self.__cursor.fetchall()
             for row in results:

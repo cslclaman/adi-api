@@ -18,7 +18,8 @@ def image_list():
 	limit = request.args.get('limit', 25, type=int)
 	tags = request.args.get('tags', "", type=str)
 	source = request.args.get('source', False, type=bool)
-	for image in ctrImage.getList(tags,page,limit):
+	rating = request.args.get('rating', "", type=str)
+	for image in ctrImage.getList(tags,page,limit,rating):
 		if source:
 			imgSource = ctrImgSource.getById(image.getPrimarySourceId())
 			jsonImageList.append(image.serialize(imgSource))
