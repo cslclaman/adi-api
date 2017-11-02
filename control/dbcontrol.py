@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import dbconfig
+import control.dbconfig as dbconfig
 from model.image import Image
 from model.imagesource import ImageSource
 from datetime import datetime
