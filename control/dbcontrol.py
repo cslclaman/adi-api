@@ -18,8 +18,8 @@ class ImageControl:
             if (limit > MAX_LIMIT): limit = MAX_LIMIT
             if (limit < 1): limit = 1
             page = (pagenum - 1) * limit
+
             query = "SELECT * FROM Image WHERE tag_string LIKE \'{0}\' AND rating LIKE \'{1}\' LIMIT {2},{3}".format(("%"+tags+"%"),("%"+rating+"%"),page,limit)
-            print(query)
             self.__cursor.execute(query)
             results = self.__cursor.fetchall()
             for row in results:
@@ -30,30 +30,28 @@ class ImageControl:
         return listImages;
 
     def getById(self, id):
+        image = None
         try:
             query = "SELECT * FROM Image WHERE id = {0}".format(id)
             self.__cursor.execute(query)
             row = self.__cursor.fetchone()
             if row is not None:
-                return Image(row)
-            else:
-                return None
+                image = Image(row)
         except MySQL.Error as err:
             print(err)
-            return None
+        return image
 
     def getByMd5(self, md5):
+        image = None
         try:
             query = "SELECT * FROM Image WHERE md5 = \'{0}\'".format(md5)
             self.__cursor.execute(query)
             row = self.__cursor.fetchone()
             if row is not None:
-                return Image(row)
-            else:
-                return None
+                image = Image(row)
         except MySQL.Error as err:
             print(err)
-            return None
+        return image
 
     def create(self, image):
         id = image.getId()
@@ -92,14 +90,13 @@ class ImageSourceControl:
         return listImageSources;
 
     def getById(self, id):
+        imageSource = None
         try:
             query = "SELECT * FROM Image_Source WHERE id = {0}".format(id)
             self.__cursor.execute(query)
             row = self.__cursor.fetchone()
             if row is not None:
-                return ImageSource(row)
-            else:
-                return None
+                imageSource =  ImageSource(row)
         except MySQL.Error as err:
             print(err)
-            return None
+        return imageSource
