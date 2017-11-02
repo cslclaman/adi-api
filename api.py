@@ -2,8 +2,13 @@
 from flask import Flask, jsonify, request
 from model.image import Image
 from control.dbcontrol import ImageControl, ImageSourceControl
+import control.formats as formats
 
 app = Flask(__name__, static_url_path='')
+app.json_encoder = formats.JSONDateEncoder
+
+ctrImage = ImageControl()
+ctrImgSource = ImageSourceControl()
 
 @app.route('/')
 def index():
@@ -11,14 +16,14 @@ def index():
 
 @app.route('/image/list', methods=['GET'])
 def image_list():
-	ctrImage = ImageControl()
-	ctrImgSource = ImageSourceControl()
 	jsonImageList = []
+
 	page = request.args.get('page', 1, type=int)
 	limit = request.args.get('limit', 25, type=int)
 	tags = request.args.get('tags', "", type=str)
 	source = request.args.get('source', False, type=bool)
 	rating = request.args.get('rating', "", type=str)
+
 	for image in ctrImage.getList(tags,page,limit,rating):
 		if source:
 			imgSource = ctrImgSource.getById(image.getPrimarySourceId())
@@ -29,8 +34,6 @@ def image_list():
 
 @app.route('/image/<int:id>', methods=['GET'])
 def image_by_id(id):
-	ctrImage = ImageControl()
-	ctrImgSource = ImageSourceControl()
 	source = request.args.get('source', False, type=bool)
 	image = ctrImage.getById(id)
 	if image is None:
@@ -44,7 +47,6 @@ def image_by_id(id):
 
 @app.route('/imagesource/<int:image_id>', methods=['GET'])
 def image_source_by_image_id(image_id):
-	ctrImgSource = ImageSourceControl()
 	jsonImageSourceList = []
 	name = request.args.get('name', "", type=str)
 	for imageSource in ctrImgSource.getList(image_id,name):
