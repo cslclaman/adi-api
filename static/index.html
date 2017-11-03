@@ -9,7 +9,7 @@
     <h2>Endpoints</h2>
     <ul>
         <h3>Image/Image Source</h3>
-        <li><p><b>GET /image/list</b> = List all images (limited to 25 in each request)</p>
+        <li><p><b>GET /image/list</b> = List all images (limited to 50 for each request)</p>
             <p><b>Example: </b><i><u>/image/list?tags=(c)touhou&amppage=3</u></i></p>
             <p><b>Parameters:</b></p>
             <ul>
@@ -32,6 +32,25 @@
             <p><b>Parameters:</b></p>
             <ul>
                 <li><i>name</i> (optional) = filter results by source name</li>
+            </ul>
+        </li>
+        <h3>Tags/ADI Tags</h3>
+        <li><p><b>GET /tag/list</b> = List all tags (limited to 50 for each request)</p>
+            <p><b>Example: </b><i><u>/tag/list?name=kantai&ampsearch=associated</u></i></p>
+            <p><b>Parameters:</b></p>
+            <ul>
+                <li><i>page</i> (optional, default 1) = page number</li>
+                <li><i>limit</i> (optional, default 25, max 50) = results per page</li>
+                <li><i>name</i> (optional) = select tags that <b>contains</b> the specified text</li>
+                <li><i>search</i> (optional, default "all") = search associations between Tags and ADI Tags
+                    <ul>
+                        <li><b>all</b>: list all tags, independent if they have an ADI Tag associated</li>
+                        <li><b>associated</b>: list only tags that have an ADI Tag associated</li>
+                        <li><b>unassociated</b>: list only tags that don't have association</li>
+                    </ul>
+                </li>
+                <li><i>adi_tag</i> (optional, default false) = return ADI Tag information (just if the tag have association)</li>
+                <li><i>association</i> (optional) = search tag by an associated Adi Tag (format: <b>(type)tag</b>)</li>
             </ul>
         </li>
     <ul>
