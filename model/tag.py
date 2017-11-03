@@ -6,14 +6,14 @@ class Tag:
         self.__adiTag = row[3]
 
     def serialize(self, adiTag=None):
-		json = {
-			"id": self.__id,
-			"tag": self.__tag,
-			"url": self.__url
-		}
-		if adiTag is not None:
-			json["adi_tag"] = adiTag.serialize()
-		return json
+        json = {
+            "id": self.__id,
+            "tag": self.__tag,
+            "url": self.__url
+        }
+        if adiTag is not None:
+            json["adi_tag"] = adiTag.serialize()
+        return json
 
-	def __str__(self):
-		return self.__tag
+    def __str__(self):
+        return self.__tag
