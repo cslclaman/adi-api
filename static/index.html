@@ -132,6 +132,23 @@
         <li><p><b>GET /aditag/000</b> = Get a single AdiTag with ID 000</p>
             <p><b>Example: </b><i><u>/aditag/6256</u></i></p>
         </li>
+        <li><p><b>GET /aditag</b> = Get a single AdiTag (search by params)</p>
+            <p><b>Example: </b><i><u>/aditag?type=c&ampname=kancolle</u></i></p>
+            <p><b>Parameters:</b></p>
+            <ul>
+                <li><i>id</i> (primary parameter) = Tag ID</li>
+                <li><i>name</i> (secondary parameter, used in combination with type when no ID found) = Tag name (exact search)</li>
+                <li><i>type</i> (secondary parameter, used in combination with name when no ID found) = Tag type
+                    <ul>
+                        <li><b>a</b> - Artist: corresponds to artists that created the image</li>
+                        <li><b>c</b> - Copyright: corresponds to series, franchises or other copyrights</li>
+                        <li><b>p</b> - "Persona" (Characters): corresponds to characters in the image</li>
+                        <li><b>i</b> - Items: corresponds to itens, actions, scenery and/or general details</li>
+                    </ul>
+                </li>
+                <li><i>tagstring</i> (terciary parameter, used when no type and name combination found) = search by format <b>(type)tag</b></li>
+            </ul>
+        </li>
     <ul>
 </body>
 </html>

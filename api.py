@@ -155,23 +155,26 @@ def aditag_view(id):
 	else:
 		return jsonify(aditag.serialize()), 200
 
-# @app.route('/tag', methods=['GET'])
-# def tag_get():
-# 	id = request.args.get('id', -1, type=int)
-# 	name = request.args.get('name', "", type=str)
-# 	showadi = request.args.get('adi_tag', "hide", type=str)
-# 	tag = None
-#
-# 	if id != -1:
-# 		tag = ctrTag.getById(id)
-# 	else:
-# 		if name != "":
-# 			tag = ctrTag.getByTagName(name)
-#
-# 	if tag is None:
-# 		return jsonify({}), 400
-# 	else:
-# 		return redirect(url_for("tag_view",id = tag.getId(), adi_tag = showadi))
+@app.route('/aditag', methods=['GET'])
+def aditag_get():
+	id = request.args.get('id', -1, type=int)
+	type = request.args.get('type', "", type=str)
+	name = request.args.get('name', "", type=str)
+	searchTag = request.args.get('tagstring', "", type=str)
+	adiTag = None
+	if id != -1:
+		adiTag = ctrAdiTag.getById(id)
+	else:
+		if type != "" and name != "":
+			adiTag = ctrAdiTag.getByTypeAndTag(type, name)
+		else:
+			if searchTag != "":
+				adiTag = ctrAdiTag.getByTagDictionary(formats.parseAdiTag(searchTag))
+
+	if adiTag is None:
+		return jsonify({}), 400
+	else:
+		return redirect(url_for("aditag_view",id = adiTag.getId()))
 
 if __name__ == "__main__":
 	app.run(debug=True, host="localhost")
