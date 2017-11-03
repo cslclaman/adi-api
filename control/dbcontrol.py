@@ -100,3 +100,51 @@ class ImageSourceControl:
         except MySQL.Error as err:
             print(err)
         return imageSource
+
+class TagControl:
+    def __init__(self):
+        self.__con = MySQL.connect(user=dbconfig.user, password=dbconfig.password, host=dbconfig.host, database=dbconfig.database)
+        self.__cursor = self.__con.cursor()
+
+    def getList(self, pagenum, limit, name, adi_tag = None):
+        listTags = []
+        try:
+            if (limit > MAX_LIMIT): limit = MAX_LIMIT
+            if (limit < 1): limit = 1
+            page = (pagenum - 1) * limit
+            query_opt = ""
+            if adi_tag is not None:
+                query_opt = "AND adi_tag = {0}".format(adi_tag.getId())
+            query = "SELECT * FROM Tag WHERE tag LIKE \'{0}\' {1} LIMIT {2},{3}".format("%"+name+"%",query_opt,page,limit)
+            self.__cursor.execute(query)
+            results = self.__cursor.fetchall()
+            for row in results:
+                tag = Tag(row)
+                listTags.append(tag)
+        except MySQL.Error as err:
+            print(err)
+        return listTags;
+
+    def getById(self, id):
+        tag = None
+        try:
+            query = "SELECT * FROM Tag WHERE id = {0}".format(id)
+            self.__cursor.execute(query)
+            row = self.__cursor.fetchone()
+            if row is not None:
+                tag = Tag(row)
+        except MySQL.Error as err:
+            print(err)
+        return tag
+
+    def getByTagName(self, name):
+        tag = None
+        try:
+            query = "SELECT * FROM Tag WHERE tag = {0}".format(name)
+            self.__cursor.execute(query)
+            row = self.__cursor.fetchone()
+            if row is not None:
+                tag = Tag(row)
+        except MySQL.Error as err:
+            print(err)
+        return tag
