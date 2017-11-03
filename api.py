@@ -136,5 +136,16 @@ def tag_get():
 	else:
 		return redirect(url_for("tag_view",id = tag.getId(), adi_tag = showadi))
 
+@app.route('/aditag/list', methods=['GET'])
+def aditag_list():
+	jsonAdiTagList = []
+	page = request.args.get('page', 1, type=int)
+	limit = request.args.get('limit', 50, type=int)
+	type = request.args.get('type', "", type=str)
+	name = request.args.get('name', "", type=str)
+	for adiTag in ctrAdiTag.getList(page,limit,type,name):
+		jsonAdiTagList.append(adiTag.serialize())
+	return jsonify(jsonAdiTagList), 200
+
 if __name__ == "__main__":
 	app.run(debug=True, host="localhost")
