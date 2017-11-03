@@ -128,7 +128,7 @@ class TagControl:
             self.__cursor.execute(query)
             results = self.__cursor.fetchall()
             for row in results:
-                tag = Tag(row)
+                tag = Tag(row=row)
                 listTags.append(tag)
         except MySQL.Error as err:
             print(err)
@@ -141,7 +141,7 @@ class TagControl:
             self.__cursor.execute(query)
             row = self.__cursor.fetchone()
             if row is not None:
-                tag = Tag(row)
+                tag = Tag(row=row)
         except MySQL.Error as err:
             print(err)
         return tag
@@ -153,10 +153,23 @@ class TagControl:
             self.__cursor.execute(query)
             row = self.__cursor.fetchone()
             if row is not None:
-                tag = Tag(row)
+                tag = Tag(row=row)
         except MySQL.Error as err:
             print(err)
         return tag
+
+    def create(self, tag):
+        new_tag = None
+        columns = "tag,url"
+        values = "\'{0}\',\'{1}\'".format(tag.getTag(),tag.getUrl())
+        query = "INSERT INTO Tag ({0}) VALUES ({1})".format(columns, values)
+        print(query)
+        try:
+            self.__cursor.execute(query)
+            new_tag = self.getById(self.__cursor.lastrowid)
+        except MySQL.Error as err:
+            print(err)
+        return new_tag
 
 class AdiTagControl:
     def __init__(self):

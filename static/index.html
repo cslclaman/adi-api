@@ -112,6 +112,14 @@
                 </li>
             </ul>
         </li>
+        <li><p><b>POST /tag/</b> = Create a tag with Name and URL ()</p>
+            <p><b>Content (JSON only):</b></p>
+            <ul>
+                <li><i>name</i> - tag name or identificator text, identical to source tag</li>
+                <li><i>url</i> (can be <b>null</b>) - same as name, without HTTP reserved characters</li>
+            </ul>
+            <p><b>Example:</b> { "name":"touhou", "url":"touhou" } </p>
+        </li>
         <li><p><b>GET /aditag/list</b> = List all AdiTags (limited to 100 for each request)</p>
             <p><b>Example: </b><i><u>/aditag/list?type=a</u></i></p>
             <p><b>Parameters:</b></p>

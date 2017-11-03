@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, jsonify, request, redirect, url_for
 from model.image import Image
+from model.tag import Tag
 from control.dbcontrol import ImageControl, ImageSourceControl, TagControl, AdiTagControl
 import control.formats as formats
 
@@ -135,6 +136,18 @@ def tag_get():
 		return jsonify({}), 400
 	else:
 		return redirect(url_for("tag_view",id = tag.getId(), adi_tag = showadi))
+
+@app.route('/tag/', methods=['POST'])
+def tag_create():
+	json = request.get_json()
+	tag = json['name']
+	url = json['url']
+	newTag = Tag(tag=tag,url=url)
+	newTag = ctrTag.create(newTag)
+	if newTag is None:
+		return jsonify({}), 400
+	else:
+		return jsonify(newTag.serialize()), 201
 
 @app.route('/aditag/list', methods=['GET'])
 def aditag_list():
