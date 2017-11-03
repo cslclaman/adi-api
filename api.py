@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, redirect, url_for
 from model.image import Image
 from control.dbcontrol import ImageControl, ImageSourceControl, TagControl, AdiTagControl
 import control.formats as formats
@@ -44,7 +44,7 @@ def image_list():
 	return jsonify(jsonImageList), 200
 
 @app.route('/image/<int:id>', methods=['GET'])
-def image_by_id(id):
+def image_view(id):
 	source = request.args.get('source', "hide", type=str)
 	image = ctrImage.getById(id)
 	if image is None:
@@ -57,8 +57,26 @@ def image_by_id(id):
 		else:
 			return jsonify(image.serialize()), 200
 
+@app.route('/image', methods=['GET'])
+def image_get():
+	md5 = request.args.get('md5', "", type=str)
+	id = request.args.get('id', -1, type=int)
+	source = request.args.get('source', "hide", type=str)
+
+	image = None
+	if id != -1:
+		image = ctrImage.getById(id)
+	else:
+		if md5 != "":
+			image = ctrImage.getByMd5(md5)
+
+	if image is None:
+		return jsonify({}), 400
+	else:
+		return redirect(url_for("image_view",id = image.getId(), source = source))
+
 @app.route('/imagesource/<int:image_id>', methods=['GET'])
-def image_source_by_image_id(image_id):
+def imagesource_list(image_id):
 	jsonImageSourceList = []
 	name = request.args.get('name', "", type=str)
 	for imageSource in ctrImgSource.getList(image_id,name):
@@ -88,7 +106,7 @@ def tag_list():
 	return jsonify(jsonTagList), 200
 
 @app.route('/tag/<int:id>', methods=['GET'])
-def tag_by_id(id):
+def tag_view(id):
 	showadi = request.args.get('adi_tag', "hide", type=str)
 	tag = ctrTag.getById(id)
 	if tag is None:
