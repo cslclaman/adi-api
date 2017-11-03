@@ -170,7 +170,7 @@ class AdiTagControl:
             if (limit > self.__maxLimit): limit = self.__maxLimit
             if (limit < 1): limit = 1
             page = (pagenum - 1) * limit
-            query = "SELECT * FROM Adi_Tag WHERE type LIKE \'{0}\' and tag LIKE \'{1}\' LIMIT {2},{3}".format("%"+tag_type+"%","%"+tag_tag+"%",page,limit)
+            query = "SELECT * FROM Adi_Tag WHERE type LIKE \'{0}\' and tag LIKE \'{1}\' ORDER BY id LIMIT {2},{3}".format("%"+tag_type+"%","%"+tag_tag+"%",page,limit)
             self.__cursor.execute(query)
             results = self.__cursor.fetchall()
             for row in results:
