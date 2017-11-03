@@ -39,6 +39,22 @@
                 </li>
             </ul>
         </li>
+        <li><p><b>GET /image</b> = Get a single image (search by params)</p>
+            <p><b>Example: </b><i><u>/image?md5=00136ff85b44f44f6adc3da667c51d8f</u></i></p>
+            <p><b>Parameters:</b></p>
+            <ul>
+                <li><i>id</i> (primary parameter) = Image ID</li>
+                <li><i>md5</i> (secondary parameter) = Image MD5 Hash</li>
+                <li><i>source</i> (optional, default "hide") = choose to show/hide image source
+                    <ul>
+                        <li><b>show</b> - show all sources related to image</li>
+                        <li><b>primary</b> - show only primary source</li>
+                        <li><b>hide</b> - hide all source</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><i>Obs.: Redirects to /image/ID when image found</i>
+        </li>
         <li><p><b>GET /imagesource/000</b> = List sources of image identified by ID 000</p>
             <p><b>Example: </b><i><u>/imagesource/10200?name=Danbooru</u></i></p>
             <p><b>Parameters:</b></p>
