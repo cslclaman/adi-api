@@ -63,12 +63,12 @@
             </ul>
         </li>
         <h3>Tags/ADI Tags</h3>
-        <li><p><b>GET /tag/list</b> = List all tags (limited to 50 for each request)</p>
+        <li><p><b>GET /tag/list</b> = List all tags (limited to 100 for each request)</p>
             <p><b>Example: </b><i><u>/tag/list?name=kantai&ampsearch=associated</u></i></p>
             <p><b>Parameters:</b></p>
             <ul>
                 <li><i>page</i> (optional, default 1) = page number</li>
-                <li><i>limit</i> (optional, default 25, max 50) = results per page</li>
+                <li><i>limit</i> (optional, default 50, max 100) = results per page</li>
                 <li><i>name</i> (optional) = select tags that <b>contains</b> the specified text</li>
                 <li><i>search</i> (optional, default "all") = search associations between Tags and ADI Tags
                     <ul>
@@ -110,6 +110,23 @@
                         <li><b>hide</b> - hide Adi Tag data</li>
                     </ul>
                 </li>
+            </ul>
+        </li>
+        <li><p><b>GET /aditag/list</b> = List all AdiTags (limited to 100 for each request)</p>
+            <p><b>Example: </b><i><u>/aditag/list?type=a</u></i></p>
+            <p><b>Parameters:</b></p>
+            <ul>
+                <li><i>page</i> (optional, default 1) = page number</li>
+                <li><i>limit</i> (optional, default 50, max 100) = results per page</li>
+                <li><i>type</i> (optional) = search tags by determined type:
+                    <ul>
+                        <li><b>a</b> - Artist: corresponds to artists that created the image</li>
+                        <li><b>c</b> - Copyright: corresponds to series, franchises or other copyrights</li>
+                        <li><b>p</b> - "Persona" (Characters): corresponds to characters in the image</li>
+                        <li><b>i</b> - Items: corresponds to itens, actions, scenery and/or general details</li>
+                    </ul>
+                </li>
+                <li><i>name</i> (optional) = select tags that <b>contains</b> the specified name</li>
             </ul>
         </li>
     <ul>
