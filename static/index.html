@@ -16,7 +16,13 @@
                 <li><i>page</i> (optional, default 1) = page number</li>
                 <li><i>limit</i> (optional, default 25, max 50) = results per page</li>
                 <li><i>tags</i> (optional) = select only images that contains the specified tags</li>
-                <li><i>source</i> (optional, default false) = show images primary source data</li>
+                <li><i>source</i> (optional, default "hide") = choose to show/hide image source
+                    <ul>
+                        <li><b>show</b> - show all sources related to image</li>
+                        <li><b>primary</b> - show only primary source</li>
+                        <li><b>hide</b> - hide all source</li>
+                    </ul>
+                </li>
                 <li><i>rating</i> (optional) = select only images with the selected rating (<i>tlb, qac (safe), opp (questionable), pfnv (explicit)</i>)</li>
             </ul>
         </li>
@@ -24,7 +30,13 @@
             <p><b>Example: </b><i><u>/image/10200</u></i></p>
             <p><b>Parameters:</b></p>
             <ul>
-                <li><i>source</i> (optional, default false) = show image primary source data</li>
+                <li><i>source</i> (optional, default "hide") = choose to show/hide image source
+                    <ul>
+                        <li><b>show</b> - show all sources related to image</li>
+                        <li><b>primary</b> - show only primary source</li>
+                        <li><b>hide</b> - hide all source</li>
+                    </ul>
+                </li>
             </ul>
         </li>
         <li><p><b>GET /imagesource/000</b> = List sources of image identified by ID 000</p>
@@ -49,7 +61,12 @@
                         <li><b>unassociated</b>: list only tags that don't have association</li>
                     </ul>
                 </li>
-                <li><i>adi_tag</i> (optional, default false) = return ADI Tag information (just if the tag have association)</li>
+                <li><i>adi_tag</i> (optional, default "show") = choose to show/hide associated ADI Tag data
+                    <ul>
+                        <li><b>show</b> - show Adi Tag data (only if the tag have association)</li>
+                        <li><b>hide</b> - hide Adi Tag data</li>
+                    </ul>
+                </li>
                 <li><i>association</i> (optional) = search tag by an associated Adi Tag (format: <b>(type)tag</b>)</li>
             </ul>
         </li>
@@ -57,7 +74,12 @@
             <p><b>Example: </b><i><u>/tag/42470</u></i></p>
             <p><b>Parameters:</b></p>
             <ul>
-                <li><i>adi_tag</i> (optional, default false) = return ADI Tag information (just if the tag have association)</li>
+                <li><i>adi_tag</i> (optional, default "show") = choose to show/hide associated ADI Tag data
+                    <ul>
+                        <li><b>show</b> - show Adi Tag data (only if the tag have association)</li>
+                        <li><b>hide</b> - hide Adi Tag data</li>
+                    </ul>
+                </li>
             </ul>
         </li>
     <ul>
