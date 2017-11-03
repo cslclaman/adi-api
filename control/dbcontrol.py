@@ -7,17 +7,16 @@ from model.aditag import AdiTag
 from datetime import datetime
 import mysql.connector as MySQL
 
-MAX_LIMIT = 50
-
 class ImageControl:
     def __init__(self):
         self.__con = MySQL.connect(user=dbconfig.user, password=dbconfig.password, host=dbconfig.host, database=dbconfig.database)
         self.__cursor = self.__con.cursor()
+        self.__maxLimit = 50
 
     def getList(self, tags, pagenum, limit, rating):
         listImages = []
         try:
-            if (limit > MAX_LIMIT): limit = MAX_LIMIT
+            if (limit > self.__maxLimit): limit = self.__maxLimit
             if (limit < 1): limit = 1
             page = (pagenum - 1) * limit
 
@@ -107,17 +106,25 @@ class TagControl:
     def __init__(self):
         self.__con = MySQL.connect(user=dbconfig.user, password=dbconfig.password, host=dbconfig.host, database=dbconfig.database)
         self.__cursor = self.__con.cursor()
+        self.__maxLimit = 100
 
-    def getList(self, pagenum, limit, name, adi_tag = None):
+    def getList(self, pagenum, limit, name, search, adi_tag = None):
         listTags = []
         try:
-            if (limit > MAX_LIMIT): limit = MAX_LIMIT
+            if (limit > self.__maxLimit): limit = self.__maxLimit
             if (limit < 1): limit = 1
             page = (pagenum - 1) * limit
-            query_opt = ""
-            if adi_tag is not None:
-                query_opt = "AND adi_tag = {0}".format(adi_tag.getId())
-            query = "SELECT * FROM Tag WHERE tag LIKE \'{0}\' {1} LIMIT {2},{3}".format("%"+name+"%",query_opt,page,limit)
+            query_a = ""
+            if adi_tag is not None and adi_tag.getId() is not None:
+                query_a = "AND adi_tag = {0}".format(adi_tag.getId())
+
+            query_b = ""
+            if search == "unassociated":
+                query_b = "AND adi_tag IS NULL"
+            elif search == "associated":
+                query_b = "AND adi_tag IS NOT NULL"
+
+            query = "SELECT * FROM Tag WHERE tag LIKE \'{0}\' {1} {2} LIMIT {3},{4}".format("%"+name+"%",query_a,query_b,page,limit)
             self.__cursor.execute(query)
             results = self.__cursor.fetchall()
             for row in results:
@@ -155,11 +162,12 @@ class AdiTagControl:
     def __init__(self):
         self.__con = MySQL.connect(user=dbconfig.user, password=dbconfig.password, host=dbconfig.host, database=dbconfig.database)
         self.__cursor = self.__con.cursor()
+        self.__maxLimit = 100
 
     def getList(self, pagenum, limit, tag_type, tag_tag):
         listAdiTags = []
         try:
-            if (limit > MAX_LIMIT): limit = MAX_LIMIT
+            if (limit > self.__maxLimit): limit = self.__maxLimit
             if (limit < 1): limit = 1
             page = (pagenum - 1) * limit
             query = "SELECT * FROM Adi_Tag WHERE type LIKE \'{0}\' and tag LIKE \'{1}\' LIMIT {2},{3}".format("%"+tag_type+"%","%"+tag_tag+"%",page,limit)
@@ -183,6 +191,11 @@ class AdiTagControl:
         except MySQL.Error as err:
             print(err)
         return adiTag
+
+    def getByTagDictionary(self, dict):
+        typ = dict['type']
+        tag = dict['tag']
+        return self.getByTypeAndTag(typ,tag)
 
     def getByTypeAndTag(self, tag_type, tag_tag):
         adiTag = None
