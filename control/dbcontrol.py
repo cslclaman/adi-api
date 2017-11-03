@@ -2,6 +2,8 @@
 import control.dbconfig as dbconfig
 from model.image import Image
 from model.imagesource import ImageSource
+from model.tag import Tag
+from model.aditag import AdiTag
 from datetime import datetime
 import mysql.connector as MySQL
 
@@ -140,7 +142,7 @@ class TagControl:
     def getByTagName(self, name):
         tag = None
         try:
-            query = "SELECT * FROM Tag WHERE tag = {0}".format(name)
+            query = "SELECT * FROM Tag WHERE tag = \'{0}\'".format(name)
             self.__cursor.execute(query)
             row = self.__cursor.fetchone()
             if row is not None:
@@ -148,3 +150,48 @@ class TagControl:
         except MySQL.Error as err:
             print(err)
         return tag
+
+class AdiTagControl:
+    def __init__(self):
+        self.__con = MySQL.connect(user=dbconfig.user, password=dbconfig.password, host=dbconfig.host, database=dbconfig.database)
+        self.__cursor = self.__con.cursor()
+
+    def getList(self, pagenum, limit, tag_type, tag_tag):
+        listAdiTags = []
+        try:
+            if (limit > MAX_LIMIT): limit = MAX_LIMIT
+            if (limit < 1): limit = 1
+            page = (pagenum - 1) * limit
+            query = "SELECT * FROM Adi_Tag WHERE type LIKE \'{0}\' and tag LIKE \'{1}\' LIMIT {2},{3}".format("%"+tag_type+"%","%"+tag_tag+"%",page,limit)
+            self.__cursor.execute(query)
+            results = self.__cursor.fetchall()
+            for row in results:
+                aditag = AdiTag(row)
+                listAdiTags.append(aditag)
+        except MySQL.Error as err:
+            print(err)
+        return listAdiTags;
+
+    def getById(self, id):
+        adiTag = None
+        try:
+            query = "SELECT * FROM Adi_Tag WHERE id = {0}".format(id)
+            self.__cursor.execute(query)
+            row = self.__cursor.fetchone()
+            if row is not None:
+                adiTag = AdiTag(row)
+        except MySQL.Error as err:
+            print(err)
+        return adiTag
+
+    def getByTypeAndTag(self, tag_type, tag_tag):
+        adiTag = None
+        try:
+            query = "SELECT * FROM Adi_Tag WHERE type = \'{0}\' AND tag = \'{1}\'".format(tag_type, tag_tag)
+            self.__cursor.execute(query)
+            row = self.__cursor.fetchone()
+            if row is not None:
+                adiTag = AdiTag(row)
+        except MySQL.Error as err:
+            print(err)
+        return adiTag
