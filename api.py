@@ -60,7 +60,7 @@ def tag_list():
 	jsonTagList = []
 
 	page = request.args.get('page', 1, type=int)
-	limit = request.args.get('limit', 25, type=int)
+	limit = request.args.get('limit', 50, type=int)
 	name = request.args.get('name', "", type=str)
 	searchType = request.args.get('search', "all", type=str)
 	searchTag = request.args.get('association', "", type=str)
@@ -76,6 +76,19 @@ def tag_list():
 			jsonTagList.append(tag.serialize())
 
 	return jsonify(jsonTagList), 200
+
+@app.route('/tag/<int:id>', methods=['GET'])
+def tag_by_id(id):
+	showadi = request.args.get('adi_tag', False, type=bool)
+	tag = ctrTag.getById(id)
+	if tag is None:
+		return jsonify({}), 400
+	else:
+		if showadi and tag.hasAdiTag():
+			adiTag = ctrAdiTag.getById(tag.getAdiTagId())
+			return jsonify(tag.serialize(adiTag)), 200
+		else:
+			return jsonify(tag.serialize()), 200
 
 if __name__ == "__main__":
 	app.run(debug=True, host="localhost")
