@@ -147,5 +147,31 @@ def aditag_list():
 		jsonAdiTagList.append(adiTag.serialize())
 	return jsonify(jsonAdiTagList), 200
 
+@app.route('/aditag/<int:id>', methods=['GET'])
+def aditag_view(id):
+	aditag = ctrAdiTag.getById(id)
+	if aditag is None:
+		return jsonify({}), 400
+	else:
+		return jsonify(aditag.serialize()), 200
+
+# @app.route('/tag', methods=['GET'])
+# def tag_get():
+# 	id = request.args.get('id', -1, type=int)
+# 	name = request.args.get('name', "", type=str)
+# 	showadi = request.args.get('adi_tag', "hide", type=str)
+# 	tag = None
+#
+# 	if id != -1:
+# 		tag = ctrTag.getById(id)
+# 	else:
+# 		if name != "":
+# 			tag = ctrTag.getByTagName(name)
+#
+# 	if tag is None:
+# 		return jsonify({}), 400
+# 	else:
+# 		return redirect(url_for("tag_view",id = tag.getId(), adi_tag = showadi))
+
 if __name__ == "__main__":
 	app.run(debug=True, host="localhost")
