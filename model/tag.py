@@ -5,6 +5,13 @@ class Tag:
         self.__url = row[2]
         self.__adiTag = row[3]
 
+    def getId(self):
+        return self.__id
+    def getAdiTagId(self):
+        return self.__adiTag
+    def hasAdiTag(self):
+        return self.__adiTag is not None
+
     def serialize(self, adiTag=None):
         json = {
             "id": self.__id,
