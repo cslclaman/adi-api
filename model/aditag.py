@@ -1,8 +1,13 @@
 class AdiTag:
-    def __init__(self, row):
-        self.__id = row[0]
-        self.__type = row[1]
-        self.__tag = row[2]
+    def __init__(self, row=None, id=0, type="", tag=""):
+        if row is not None:
+            self.__id = row[0]
+            self.__type = row[1]
+            self.__tag = row[2]
+        else:
+            self.__id = id
+            self.__type = type
+            self.__tag = tag
 
     def getId(self):
         return self.__id
