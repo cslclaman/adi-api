@@ -77,3 +77,30 @@ class TagControl(Control):
             print(err)
         self.disconnect()
         return new_tag
+
+    def update(self, tag):
+        id = tag.getId()
+        upd = self.getById(id)
+
+        params = ""
+        if tag.getTag() != upd.getTag():
+            params = params + "tag = \'{0}\'".format(tag.getTag())
+        if tag.getUrl() != upd.getUrl():
+            if params:
+                params = params + ","
+            params = params + "url = \'{0}\'".format(tag.getUrl())
+        if tag.getAdiTagId() != upd.getAdiTagId():
+            if params:
+                params = params + ","
+            params = params + "adi_tag = {0}".format(tag.getAdiTagId())
+
+        self.connect()
+        query = "UPDATE Tag SET {1} WHERE id = {0}".format(id,params)
+        try:
+            self.cursor.execute(query)
+            self.con.commit()
+            upd = self.getById(id)
+        except Error as err:
+            print(err)
+        self.disconnect()
+        return upd

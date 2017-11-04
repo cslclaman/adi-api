@@ -122,6 +122,25 @@ def tag_view(id):
 		else:
 			return jsonify(tag.serialize()), 200
 
+@app.route('/tag/<int:id>', methods=['PUT'])
+def tag_edit(id):
+	json = request.get_json()
+	name = json['name']
+	url = json['url']
+	aditag = json['adi_tag']
+	tag = ctrTag.getById(id)
+	if tag is None:
+		return jsonify({}), 400
+	else:
+		if name is not None:
+			tag.setTag(name)
+		if url is not None:
+			tag.setUrl(url)
+		if aditag is not None:
+			tag.setAdiTagId(aditag)
+		tag = ctrTag.update(tag)
+		return jsonify(tag.serialize()), 200
+
 @app.route('/tag/find', methods=['GET'])
 def tag_get():
 	id = request.args.get('id', -1, type=int)
@@ -203,7 +222,12 @@ def aditag_create():
 	if newAdiTag is None:
 		return jsonify({}), 400
 	else:
-		print(tagList)
+		if tagList is not None:
+			for tagName in tagList:
+				tag = ctrTag.getByTagName(tagName)
+				if tag is not None:
+					tag.setAdiTagId(newAdiTag.getId())
+					tag = ctrTag.update(tag)
 		return jsonify(newAdiTag.serialize()), 201
 
 if __name__ == "__main__":
