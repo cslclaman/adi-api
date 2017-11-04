@@ -9,7 +9,7 @@
     <h2>Endpoints</h2>
     <ul>
         <h3>Image/Image Source</h3>
-        <li><p><b>GET /image/list</b> = List all images (limited to 50 for each request)</p>
+        <li><p><b>GET /image</b> = List all images (limited to 50 for each request)</p>
             <p><b>Example: </b><i><u>/image/list?tags=(c)touhou&amppage=3</u></i></p>
             <p><b>Parameters:</b></p>
             <ul>
@@ -39,7 +39,7 @@
                 </li>
             </ul>
         </li>
-        <li><p><b>GET /image</b> = Get a single image (search by params)</p>
+        <li><p><b>GET /image/find</b> = Get a single image (search by params)</p>
             <p><b>Example: </b><i><u>/image?md5=00136ff85b44f44f6adc3da667c51d8f</u></i></p>
             <p><b>Parameters:</b></p>
             <ul>
@@ -63,7 +63,7 @@
             </ul>
         </li>
         <h3>Tags/ADI Tags</h3>
-        <li><p><b>GET /tag/list</b> = List all tags (limited to 100 for each request)</p>
+        <li><p><b>GET /tag</b> = List all tags (limited to 100 for each request)</p>
             <p><b>Example: </b><i><u>/tag/list?name=kantai&ampsearch=associated</u></i></p>
             <p><b>Parameters:</b></p>
             <ul>
@@ -98,7 +98,7 @@
                 </li>
             </ul>
         </li>
-        <li><p><b>GET /tag</b> = Get a single tag (search by params)</p>
+        <li><p><b>GET /tag/find</b> = Get a single tag (search by params)</p>
             <p><b>Example: </b><i><u>/tag?name=2girls</u></i></p>
             <p><b>Parameters:</b></p>
             <ul>
@@ -112,7 +112,7 @@
                 </li>
             </ul>
         </li>
-        <li><p><b>POST /tag/</b> = Create a tag with Name and URL ()</p>
+        <li><p><b>POST /tag</b> = Create a tag with Name and URL ()</p>
             <p><b>Content (JSON only):</b></p>
             <ul>
                 <li><i>name</i> - tag name or identificator text, identical to source tag</li>
@@ -120,7 +120,7 @@
             </ul>
             <p><b>Example:</b> { "name":"touhou", "url":"touhou" } </p>
         </li>
-        <li><p><b>GET /aditag/list</b> = List all AdiTags (limited to 100 for each request)</p>
+        <li><p><b>GET /aditag</b> = List all AdiTags (limited to 100 for each request)</p>
             <p><b>Example: </b><i><u>/aditag/list?type=a</u></i></p>
             <p><b>Parameters:</b></p>
             <ul>
@@ -140,7 +140,7 @@
         <li><p><b>GET /aditag/000</b> = Get a single AdiTag with ID 000</p>
             <p><b>Example: </b><i><u>/aditag/6256</u></i></p>
         </li>
-        <li><p><b>GET /aditag</b> = Get a single AdiTag (search by params)</p>
+        <li><p><b>GET /aditag/find</b> = Get a single AdiTag (search by params)</p>
             <p><b>Example: </b><i><u>/aditag?type=c&ampname=kancolle</u></i></p>
             <p><b>Parameters:</b></p>
             <ul>

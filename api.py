@@ -19,7 +19,7 @@ ctrAdiTag = AdiTagControl()
 def index():
 	return app.send_static_file("index.html")
 
-@app.route('/image/list', methods=['GET'])
+@app.route('/image', methods=['GET'])
 def image_list():
 	jsonImageList = []
 
@@ -60,7 +60,7 @@ def image_view(id):
 		else:
 			return jsonify(image.serialize()), 200
 
-@app.route('/image', methods=['GET'])
+@app.route('/image/find', methods=['GET'])
 def image_get():
 	md5 = request.args.get('md5', "", type=str)
 	id = request.args.get('id', -1, type=int)
@@ -86,7 +86,7 @@ def imagesource_list(image_id):
 		jsonImageSourceList.append(imageSource.serialize())
 	return jsonify(jsonImageSourceList), 200
 
-@app.route('/tag/list', methods=['GET'])
+@app.route('/tag', methods=['GET'])
 def tag_list():
 	jsonTagList = []
 
@@ -121,7 +121,7 @@ def tag_view(id):
 		else:
 			return jsonify(tag.serialize()), 200
 
-@app.route('/tag', methods=['GET'])
+@app.route('/tag/find', methods=['GET'])
 def tag_get():
 	id = request.args.get('id', -1, type=int)
 	name = request.args.get('name', "", type=str)
@@ -139,7 +139,7 @@ def tag_get():
 	else:
 		return redirect(url_for("tag_view",id = tag.getId(), adi_tag = showadi))
 
-@app.route('/tag/', methods=['POST'])
+@app.route('/tag', methods=['POST'])
 def tag_create():
 	json = request.get_json()
 	tag = json['name']
@@ -151,7 +151,7 @@ def tag_create():
 	else:
 		return jsonify(newTag.serialize()), 201
 
-@app.route('/aditag/list', methods=['GET'])
+@app.route('/aditag', methods=['GET'])
 def aditag_list():
 	jsonAdiTagList = []
 	page = request.args.get('page', 1, type=int)
@@ -170,7 +170,7 @@ def aditag_view(id):
 	else:
 		return jsonify(aditag.serialize()), 200
 
-@app.route('/aditag', methods=['GET'])
+@app.route('/aditag/find', methods=['GET'])
 def aditag_get():
 	id = request.args.get('id', -1, type=int)
 	type = request.args.get('type', "", type=str)
