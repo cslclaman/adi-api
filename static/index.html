@@ -112,7 +112,7 @@
                 </li>
             </ul>
         </li>
-        <li><p><b>POST /tag</b> = Create a tag with Name and URL ()</p>
+        <li><p><b>POST /tag</b> = Create a tag with Name and URL</p>
             <p><b>Content (JSON only):</b></p>
             <ul>
                 <li><i>name</i> - tag name or identificator text, identical to source tag</li>
@@ -156,6 +156,23 @@
                 </li>
                 <li><i>tagstring</i> (terciary parameter, used when no type and name combination found) = search by format <b>(type)tag</b></li>
             </ul>
+        </li>
+        <li><p><b>POST /aditag</b> = Create a AdiTag with type and name</p>
+            <p><b>Content (JSON only):</b></p>
+            <ul>
+                <li><i>type</i> - tag type (see below)
+                    <ul>
+                        <li><b>a</b> - Artist: corresponds to artists that created the image</li>
+                        <li><b>c</b> - Copyright: corresponds to series, franchises or other copyrights</li>
+                        <li><b>p</b> - "Persona" (Characters): corresponds to characters in the image</li>
+                        <li><b>i</b> - Items: corresponds to itens, actions, scenery and/or general details</li>
+                    </ul>
+                </li>
+                <li><i>name</i> - tag name or identificator</li>
+                <li><i>tags</i> (can be null) - tag list to associate with.
+            </ul>
+            <p><b>Example:</b> { "type":"c", "name":"touhou", "tags":["touhou","touhou_(pc98)"] } </p>
+            <p><b>Another example:</b> { "type":"a", "name":"kantoku", "tags": null } </p>
         </li>
     <ul>
 </body>

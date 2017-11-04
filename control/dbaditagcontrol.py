@@ -44,11 +44,11 @@ class AdiTagControl(Control):
         tag = dict['tag']
         return self.getByTypeAndTag(typ,tag)
 
-    def getByTypeAndTag(self, tag_type, tag_tag):
+    def getByTypeAndTag(self, type, tag):
         self.connect()
         adiTag = None
         try:
-            query = "SELECT * FROM Adi_Tag WHERE type = \'{0}\' AND tag = \'{1}\'".format(tag_type, tag_tag)
+            query = "SELECT * FROM Adi_Tag WHERE type = \'{0}\' AND tag = \'{1}\'".format(type, tag)
             self.cursor.execute(query)
             row = self.cursor.fetchone()
             if row is not None:
@@ -57,3 +57,18 @@ class AdiTagControl(Control):
             print(err)
         self.disconnect()
         return adiTag
+
+    def create(self, adiTag):
+        self.connect()
+        new_aditag = None
+        columns = "type,tag"
+        values = "\'{0}\',\'{1}\'".format(adiTag.getType(),adiTag.getTag())
+        query = "INSERT INTO Adi_Tag ({0}) VALUES ({1})".format(columns, values)
+        try:
+            self.cursor.execute(query)
+            self.con.commit()
+            new_aditag = self.getById(self.cursor.lastrowid)
+        except Error as err:
+            print(err)
+        self.disconnect()
+        return new_aditag
