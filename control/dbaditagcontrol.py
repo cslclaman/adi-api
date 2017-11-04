@@ -1,0 +1,58 @@
+from control.dbcontrol import Control
+from model.aditag import AdiTag
+
+class AdiTagControl(Control):
+    def __init__(self):
+        Control.__init__(self)
+        self.__maxLimit = 100
+
+    def getList(self, pagenum, limit, tag_type, tag_tag):
+        self.connect()
+        listAdiTags = []
+        try:
+            if (limit > self.__maxLimit): limit = self.__maxLimit
+            if (limit < 1): limit = 1
+            page = (pagenum - 1) * limit
+            query = "SELECT * FROM Adi_Tag WHERE type LIKE \'{0}\' and tag LIKE \'{1}\' ORDER BY id LIMIT {2},{3}".format("%"+tag_type+"%","%"+tag_tag+"%",page,limit)
+            self.cursor.execute(query)
+            results = self.cursor.fetchall()
+            for row in results:
+                aditag = AdiTag(row)
+                listAdiTags.append(aditag)
+        except MySQL.Error as err:
+            print(err)
+        self.disconnect()
+        return listAdiTags;
+
+    def getById(self, id):
+        self.connect()
+        adiTag = None
+        try:
+            query = "SELECT * FROM Adi_Tag WHERE id = {0}".format(id)
+            self.cursor.execute(query)
+            row = self.cursor.fetchone()
+            if row is not None:
+                adiTag = AdiTag(row)
+        except MySQL.Error as err:
+            print(err)
+        self.disconnect()
+        return adiTag
+
+    def getByTagDictionary(self, dict):
+        typ = dict['type']
+        tag = dict['tag']
+        return self.getByTypeAndTag(typ,tag)
+
+    def getByTypeAndTag(self, tag_type, tag_tag):
+        self.connect()
+        adiTag = None
+        try:
+            query = "SELECT * FROM Adi_Tag WHERE type = \'{0}\' AND tag = \'{1}\'".format(tag_type, tag_tag)
+            self.cursor.execute(query)
+            row = self.cursor.fetchone()
+            if row is not None:
+                adiTag = AdiTag(row)
+        except MySQL.Error as err:
+            print(err)
+        self.disconnect()
+        return adiTag

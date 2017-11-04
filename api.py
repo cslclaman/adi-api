@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, jsonify, request, redirect, url_for
-from model.image import Image
 from model.tag import Tag
-from control.dbcontrol import ImageControl, ImageSourceControl, TagControl, AdiTagControl
+from control.dbimagecontrol import ImageControl
+from control.dbimagesourcecontrol import ImageSourceControl
+from control.dbtagcontrol import TagControl
+from control.dbaditagcontrol import AdiTagControl
 import control.formats as formats
 
 app = Flask(__name__, static_url_path='')
