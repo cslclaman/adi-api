@@ -1,5 +1,6 @@
 from control.dbcontrol import Control
 from model.image import Image
+from mysql.connector import Error
 from datetime import datetime
 
 class ImageControl(Control):
@@ -20,7 +21,7 @@ class ImageControl(Control):
             for row in results:
                 image = Image(row)
                 listImages.append(image)
-        except MySQL.Error as err:
+        except Error as err:
             print(err)
         self.disconnect()
         return listImages;
@@ -34,7 +35,7 @@ class ImageControl(Control):
             row = self.cursor.fetchone()
             if row is not None:
                 image = Image(row)
-        except MySQL.Error as err:
+        except Error as err:
             print(err)
         self.disconnect()
         return image
@@ -48,7 +49,7 @@ class ImageControl(Control):
             row = self.cursor.fetchone()
             if row is not None:
                 image = Image(row)
-        except MySQL.Error as err:
+        except Error as err:
             print(err)
         self.disconnect()
         return image
@@ -70,6 +71,6 @@ class ImageControl(Control):
             query = "INSERT INTO Image ({0}) VALUES ({1})".format(columns, values)
             self.cursor.execute(query)
             self.con.commit()
-        except MySQL.Error as err:
+        except Error as err:
             print(err)
         self.disconnect()

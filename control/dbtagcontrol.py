@@ -1,5 +1,6 @@
 from control.dbcontrol import Control
 from model.tag import Tag
+from mysql.connector import Error
 
 class TagControl(Control):
     def __init__(self):
@@ -29,7 +30,7 @@ class TagControl(Control):
             for row in results:
                 tag = Tag(row=row)
                 listTags.append(tag)
-        except MySQL.Error as err:
+        except Error as err:
             print(err)
         self.disconnect()
         return listTags;
@@ -43,7 +44,7 @@ class TagControl(Control):
             row = self.cursor.fetchone()
             if row is not None:
                 tag = Tag(row=row)
-        except MySQL.Error as err:
+        except Error as err:
             print(err)
         self.disconnect()
         return tag
@@ -57,7 +58,7 @@ class TagControl(Control):
             row = self.cursor.fetchone()
             if row is not None:
                 tag = Tag(row=row)
-        except MySQL.Error as err:
+        except Error as err:
             print(err)
         self.disconnect()
         return tag
@@ -72,7 +73,7 @@ class TagControl(Control):
             self.cursor.execute(query)
             self.con.commit()
             new_tag = self.getById(self.cursor.lastrowid)
-        except MySQL.Error as err:
+        except Error as err:
             print(err)
         self.disconnect()
         return new_tag

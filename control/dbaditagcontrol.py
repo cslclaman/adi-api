@@ -1,5 +1,6 @@
 from control.dbcontrol import Control
 from model.aditag import AdiTag
+from mysql.connector import Error
 
 class AdiTagControl(Control):
     def __init__(self):
@@ -19,7 +20,7 @@ class AdiTagControl(Control):
             for row in results:
                 aditag = AdiTag(row)
                 listAdiTags.append(aditag)
-        except MySQL.Error as err:
+        except Error as err:
             print(err)
         self.disconnect()
         return listAdiTags;
@@ -33,7 +34,7 @@ class AdiTagControl(Control):
             row = self.cursor.fetchone()
             if row is not None:
                 adiTag = AdiTag(row)
-        except MySQL.Error as err:
+        except Error as err:
             print(err)
         self.disconnect()
         return adiTag
@@ -52,7 +53,7 @@ class AdiTagControl(Control):
             row = self.cursor.fetchone()
             if row is not None:
                 adiTag = AdiTag(row)
-        except MySQL.Error as err:
+        except Error as err:
             print(err)
         self.disconnect()
         return adiTag

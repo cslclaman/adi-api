@@ -1,5 +1,6 @@
 from control.dbcontrol import Control
 from model.imagesource import ImageSource
+from mysql.connector import Error
 
 class ImageSourceControl(Control):
     def __init__(self):
@@ -15,7 +16,7 @@ class ImageSourceControl(Control):
             for row in results:
                 imagesrc = ImageSource(row)
                 listImageSources.append(imagesrc)
-        except MySQL.Error as err:
+        except Error as err:
             print(err)
         self.disconnect()
         return listImageSources;
@@ -29,7 +30,7 @@ class ImageSourceControl(Control):
             row = self.cursor.fetchone()
             if row is not None:
                 imageSource =  ImageSource(row)
-        except MySQL.Error as err:
+        except Error as err:
             print(err)
         self.disconnect()
         return imageSource
