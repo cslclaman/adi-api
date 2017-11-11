@@ -52,7 +52,7 @@ def image_view(id):
 	source = request.args.get('source', "hide", type=str)
 	image = ctrImage.getById(id)
 	if image is None:
-		return jsonify({}), 400
+		return jsonify({}), 404
 	else:
 		#same as above
 		if source == "show" or source == "primary":
@@ -75,7 +75,7 @@ def image_get():
 			image = ctrImage.getByMd5(md5)
 
 	if image is None:
-		return jsonify({}), 400
+		return jsonify({}), 404
 	else:
 		return redirect(url_for("image_view",id = image.getId(), source = source))
 
@@ -114,7 +114,7 @@ def tag_view(id):
 	showadi = request.args.get('adi_tag', "hide", type=str)
 	tag = ctrTag.getById(id)
 	if tag is None:
-		return jsonify({}), 400
+		return jsonify({}), 404
 	else:
 		if showadi == "show" and tag.hasAdiTag():
 			adiTag = ctrAdiTag.getById(tag.getAdiTagId())
@@ -130,7 +130,7 @@ def tag_edit(id):
 	aditag = json['adi_tag']
 	tag = ctrTag.getById(id)
 	if tag is None:
-		return jsonify({}), 400
+		return jsonify({}), 404
 	else:
 		if name is not None:
 			tag.setTag(name)
@@ -155,7 +155,7 @@ def tag_get():
 			tag = ctrTag.getByTagName(name)
 
 	if tag is None:
-		return jsonify({}), 400
+		return jsonify({}), 404
 	else:
 		return redirect(url_for("tag_view",id = tag.getId(), adi_tag = showadi))
 
@@ -167,7 +167,7 @@ def tag_create():
 	newTag = Tag(tag=tag,url=url)
 	newTag = ctrTag.create(newTag)
 	if newTag is None:
-		return jsonify({}), 400
+		return jsonify({}), 404
 	else:
 		return jsonify(newTag.serialize()), 201
 
@@ -186,7 +186,7 @@ def aditag_list():
 def aditag_view(id):
 	aditag = ctrAdiTag.getById(id)
 	if aditag is None:
-		return jsonify({}), 400
+		return jsonify({}), 404
 	else:
 		return jsonify(aditag.serialize()), 200
 
@@ -207,7 +207,7 @@ def aditag_get():
 				adiTag = ctrAdiTag.getByTagDictionary(formats.parseAdiTag(searchTag))
 
 	if adiTag is None:
-		return jsonify({}), 400
+		return jsonify({}), 404
 	else:
 		return redirect(url_for("aditag_view",id = adiTag.getId()))
 
@@ -220,7 +220,7 @@ def aditag_create():
 	newAdiTag = AdiTag(type=type,tag=name)
 	newAdiTag = ctrAdiTag.create(newAdiTag)
 	if newAdiTag is None:
-		return jsonify({}), 400
+		return jsonify({}), 404
 	else:
 		if tagList is not None:
 			for tagName in tagList:
