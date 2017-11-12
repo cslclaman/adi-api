@@ -58,6 +58,9 @@ class Image:
 	def setTagString(self,tagString):
 		self.__tagString = tagString
 
+	def getTagList(self):
+		return self.__tagString.split(' ')
+
 	def getRating(self):
 		return self.__rating
 	def setRating(self,rating):
