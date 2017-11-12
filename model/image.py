@@ -1,18 +1,42 @@
 class Image:
 
-	def __init__(self, row):
-		self.__id = row[0]
-		self.__md5 = row[1]
-		self.__filePath = row[2]
-		self.__tagString = row[3]
-		self.__rating = row[4]
-		self.__active = True if row[5] == 1 else False
-		self.__fileSize = row[6]
-		self.__fileSource = row[7]
-		self.__creationDate = row[8]
-		self.__lastUpdate = row[9]
-		self.__primarySource = row[10];
-		self.__sourceName = row[11]
+	def __init__(self, row=None, dict=None):
+		if row is not None:
+			self.__id = row[0]
+			self.__md5 = row[1]
+			self.__filePath = row[2]
+			self.__tagString = row[3]
+			self.__rating = row[4]
+			self.__active = True if row[5] == 1 else False
+			self.__fileSize = row[6]
+			self.__fileSource = row[7]
+			self.__creationDate = row[8]
+			self.__lastUpdate = row[9]
+			self.__primarySource = row[10]
+			self.__sourceName = row[11]
+		else:
+			self.__id = 0
+			self.__creationDate = None
+			self.__lastUpdate = None
+			self.__primarySource = None
+			if dict is not None:
+				self.__md5 = dict['md5']
+				self.__filePath = dict['file_path']
+				self.__tagString = dict['tag_string']
+				self.__rating = dict['rating']
+				self.__active = dict['active']
+				self.__fileSize = dict['file_size']
+				self.__fileSource = dict['file_source']
+				self.__sourceName = dict['source_name']
+			else:
+				self.__md5 = "00000000000000000000000000000000"
+				self.__filePath = ""
+				self.__tagString = ""
+				self.__rating = "opp"
+				self.__active = True
+				self.__fileSize = 0
+				self.__fileSource = ""
+				self.__sourceName = ""
 
 	def getId(self):
 		return self.__id
