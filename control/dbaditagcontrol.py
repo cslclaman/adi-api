@@ -72,3 +72,27 @@ class AdiTagControl(Control):
             print(err)
         self.disconnect()
         return new_aditag
+
+    def update(self, adiTag):
+        id = adiTag.getId()
+        upd = self.getById(id)
+
+        params = ""
+        if adiTag.getType() != upd.getType():
+            params = params + "type = \'{0}\'".format(adiTag.getType())
+        if adiTag.getTag() != upd.getTag():
+            if params:
+                params = params + ","
+            params = params + "tag = \'{0}\'".format(adiTag.getTag())
+
+        if params:
+            self.connect()
+            query = "UPDATE Adi_Tag SET {0} WHERE id = {1}".format(params,id)
+            try:
+                self.cursor.execute(query)
+                self.con.commit()
+                upd = self.getById(id)
+            except Error as err:
+                print(err)
+            self.disconnect()
+        return upd
