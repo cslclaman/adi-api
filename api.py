@@ -102,6 +102,20 @@ def imagesource_list(image_id):
 		jsonImageSourceList.append(imageSource.serialize())
 	return jsonify(jsonImageSourceList), 200
 
+@app.route('/imagesource', methods=['POST'])
+def imagesource_create():
+	json = request.get_json()
+	newImgSource = Image(dict=json)
+	newImgSource = ctrImageSource.create(newImgSource)
+	if newImgSource is None:
+		return jsonify({}), 404
+	else:
+		for tag in newImgSource.getTagList():
+			adiTag = ctrAdiTag.getByTagDictionary(tag)
+			if adiTag is not None:
+				ctrImage.addTag(newImage,adiTag)
+		return jsonify(newImage.serialize()), 201
+
 @app.route('/tag', methods=['GET'])
 def tag_list():
 	jsonTagList = []
