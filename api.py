@@ -246,5 +246,21 @@ def aditag_create():
 					tag = ctrTag.update(tag)
 		return jsonify(newAdiTag.serialize()), 201
 
+@app.route('/aditag/<int:id>', methods=['PUT'])
+def aditag_edit(id):
+	json = request.get_json()
+	type = json['type']
+	name = json['name']
+	adiTag = ctrAdiTag.getById(id)
+	if adiTag is None:
+		return jsonify({}), 404
+	else:
+		if type is not None:
+			adiTag.setType(type)
+		if name is not None:
+			adiTag.setTag(name)
+		adiTag = ctrAdiTag.update(adiTag)
+		return jsonify(adiTag.serialize()), 200
+
 if __name__ == "__main__":
 	app.run(debug=True, host="localhost")
