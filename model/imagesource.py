@@ -1,21 +1,44 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
+
 class ImageSource:
-	def __init__(self, row):
-		self.__id = row[0]
-		self.__image = row[1]
-		self.__sourceName = row[2]
-		self.__sourceId = row[3]
-		self.__postUrl = row[4]
-		self.__fileUrl = row[5]
-		self.__uploadDate = row[6]
-		self.__md5 = row[7]
-		self.__fileSize = row[8]
-		self.__tagString = row[9]
-		self.__sourceOffline = True if row[10] == 1 else False
-		self.__imageDeleted = True if row[11] == 1 else False
-		self.__imageCensored = True if row[12] == 1 else False
-		self.__imageBanned = True if row[13] == 1 else False
-		self.__rating = row[14]
+	def __init__(self, row=None, dict=None):
+		if row is not None:
+			self.__id = row[0]
+			self.__image = row[1]
+			self.__sourceName = row[2]
+			self.__sourceId = row[3]
+			self.__postUrl = row[4]
+			self.__fileUrl = row[5]
+			self.__uploadDate = row[6]
+			self.__md5 = row[7]
+			self.__fileSize = row[8]
+			self.__tagString = row[9]
+			self.__sourceOffline = True if row[10] == 1 else False
+			self.__imageDeleted = True if row[11] == 1 else False
+			self.__imageCensored = True if row[12] == 1 else False
+			self.__imageBanned = True if row[13] == 1 else False
+			self.__rating = row[14]
+		else:
+			self.__id = 0
+			if dict is not None:
+				self.__image = dict['image_id']
+				self.__sourceName = dict['source_name']
+				self.__sourceId = dict['source_id']
+				self.__postUrl = dict['post_url']
+				self.__fileUrl = dict['file_url']
+				if dict['upload_date'] is None:
+					self.__uploadDate = None
+				else:
+					self.__uploadDate = datetime.strptime(dict['upload_date'], '%Y-%m-%d %H:%M:%S')
+				self.__md5 = dict['md5']
+				self.__fileSize = dict['file_size']
+				self.__tagString = dict['tag_string']
+				self.__sourceOffline = dict['source_offline']
+				self.__imageDeleted = dict['image_deleted']
+				self.__imageCensored = dict['image_censored']
+				self.__imageBanned = dict['image_banned']
+				self.__rating = dict['rating']
 
 	def getId(self):
 		return self.__id
