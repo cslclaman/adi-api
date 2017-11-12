@@ -50,6 +50,11 @@ class ImageSource:
 	def setImage(self,image):
 		self.__image = image
 
+	def getImageId(self):
+		return self.__image
+	def setImageId(self,image):
+		self.__image = image
+
 	def getSourceName(self):
 		return self.__sourceName
 	def setSourceName(self, sourceName):
@@ -89,6 +94,9 @@ class ImageSource:
 		return self.__tagString
 	def setTagString(self,tagString):
 		self.__tagString = tagString
+
+	def getTagList(self):
+		return self.__tagString.split(' ')
 
 	def isSourceOffline(self):
 		return self.__sourceOffline
