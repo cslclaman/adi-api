@@ -77,3 +77,16 @@ class ImageSourceControl(Control):
             print(err)
         self.disconnect()
         return newsource
+
+    def addTag(self, source, tag):
+        self.connect()
+        assoc = False
+        try:
+            query = "INSERT INTO Source_Tags (image_source, tag) VALUES ({0}, {1})".format(source.getId(), tag.getId())
+            self.cursor.execute(query)
+            self.con.commit()
+            assoc = True
+        except Error as err:
+            print(err)
+        self.disconnect()
+        return assoc
