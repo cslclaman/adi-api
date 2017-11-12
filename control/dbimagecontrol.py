@@ -19,7 +19,7 @@ class ImageControl(Control):
             self.cursor.execute(query)
             results = self.cursor.fetchall()
             for row in results:
-                image = Image(row)
+                image = Image(row=row)
                 listImages.append(image)
         except Error as err:
             print(err)
@@ -34,7 +34,7 @@ class ImageControl(Control):
             self.cursor.execute(query)
             row = self.cursor.fetchone()
             if row is not None:
-                image = Image(row)
+                image = Image(row=row)
         except Error as err:
             print(err)
         self.disconnect()
@@ -48,15 +48,29 @@ class ImageControl(Control):
             self.cursor.execute(query)
             row = self.cursor.fetchone()
             if row is not None:
-                image = Image(row)
+                image = Image(row=row)
         except Error as err:
             print(err)
         self.disconnect()
         return image
 
+    def addTag(self, image, adiTag):
+        self.connect()
+        assoc = False
+        try:
+            query = "INSERT INTO Image_Tags (image, adi_tag) VALUES ({0}, {1})".format(image.getId(), adiTag.getId())
+            self.cursor.execute(query)
+            self.con.commit()
+            assoc = True
+        except Error as err:
+            print(err)
+        self.disconnect()
+        return assoc
+
     def create(self, image):
         self.connect()
-        id = image.getId()
+        newimage = None
+
         md5 = image.getMd5()
         file_path = image.getFilePath()
         tag_string = image.getTagString()
@@ -71,6 +85,8 @@ class ImageControl(Control):
             query = "INSERT INTO Image ({0}) VALUES ({1})".format(columns, values)
             self.cursor.execute(query)
             self.con.commit()
+            newimage = self.getById(self.cursor.lastrowid)
         except Error as err:
             print(err)
         self.disconnect()
+        return newimage
