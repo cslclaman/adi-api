@@ -21,7 +21,7 @@ class AdiTag:
 
     def getTag(self):
         return self.__tag
-    def setTag(self):
+    def setTag(self, tag):
         self.__tag = tag
 
     def serialize(self):
