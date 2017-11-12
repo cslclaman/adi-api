@@ -82,17 +82,16 @@ def image_get():
 @app.route('/image', methods=['POST'])
 def image_create():
 	json = request.get_json()
-	adiTagList = json['tags']
 	newImage = Image(dict=json)
 	newImage = ctrImage.create(newImage)
 	if newImage is None:
 		return jsonify({}), 404
 	else:
-		if adiTagList is not None:
-			for tag in adiTagList:
-				adiTag = ctrAdiTag.getByTagDictionary(tag)
-				if adiTag is not None:
-					ctrImage.addTag(newImage,adiTag)
+		for tag in newImage.getTagList():
+			adiTag = ctrAdiTag.getByTagDictionary(tag)
+			print(tag + " => " + adiTag)
+			if adiTag is not None:
+				ctrImage.addTag(newImage,adiTag)
 		return jsonify(newImage.serialize()), 201
 
 @app.route('/imagesource/<int:image_id>', methods=['GET'])
