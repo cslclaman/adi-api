@@ -113,8 +113,8 @@ def imagesource_create():
 		for tagName in newImgSource.getTagList():
 			tag = ctrTag.getByTagName(tagName)
 			if tag is not None:
-				ctrImageSource.addTag(newImage,tag)
-		return jsonify(newImage.serialize()), 201
+				ctrImageSource.addTag(newImgSource,tag)
+		return jsonify(newImgSource.serialize()), 201
 
 @app.route('/tag', methods=['GET'])
 def tag_list():
