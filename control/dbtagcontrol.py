@@ -53,8 +53,15 @@ class TagControl(Control):
         self.connect()
         tag = None
         try:
-            query = "SELECT * FROM Tag WHERE tag = \'{0}\'".format(name)
-            self.cursor.execute(query)
+            query = (
+                "SELECT * "
+                "FROM Tag "
+                "WHERE tag = %(name)s"
+            )
+            data = {
+                'name': name
+            }
+            self.cursor.execute(query, data)
             row = self.cursor.fetchone()
             if row is not None:
                 tag = Tag(row=row)
@@ -66,11 +73,16 @@ class TagControl(Control):
     def create(self, tag):
         self.connect()
         new_tag = None
-        columns = "tag,url"
-        values = "\'{0}\',\'{1}\'".format(tag.getTag(),tag.getUrl())
-        query = "INSERT INTO Tag ({0}) VALUES ({1})".format(columns, values)
+        #columns = "tag,url"
+        #values = "\'{0}\',\'{1}\'".format(tag.getTag(),tag.getUrl())
+        #query = "INSERT INTO Tag ({0}) VALUES ({1})".format(columns, values)
+        query = (
+            "INSERT INTO Tag (tag,url) "
+            "VALUES (%(tag)s, %(url)s)"
+        )
+        data = tag.serialize()
         try:
-            self.cursor.execute(query)
+            self.cursor.execute(query, data)
             self.con.commit()
             new_tag = self.getById(self.cursor.lastrowid)
         except Error as err:
