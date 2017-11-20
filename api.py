@@ -176,15 +176,18 @@ def tag_get():
 	name = request.args.get('name', "", type=str)
 	showadi = request.args.get('adi_tag', "hide", type=str)
 	tag = None
+	param = ""
 
 	if id != -1:
+		param = "id = {0}".format(id)
 		tag = ctrTag.getById(id)
 	else:
 		if name != "":
+			param = "name = {0}".format(name)
 			tag = ctrTag.getByTagName(name)
 
 	if tag is None:
-		return jsonify({}), 404
+		return jsonify({'error':"No tag found for the specified parameter",'parameter':param}), 404
 	else:
 		return redirect(url_for("tag_view",id = tag.getId(), adi_tag = showadi))
 
