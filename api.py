@@ -5,6 +5,7 @@ from control.dbimagesourcecontrol import ImageSourceControl
 from control.dbtagcontrol import TagControl
 from control.dbaditagcontrol import AdiTagControl
 from model.tag import Tag
+from model.image import Image
 from model.aditag import AdiTag
 import control.formats as formats
 
