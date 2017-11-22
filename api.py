@@ -96,13 +96,25 @@ def image_create():
 				ctrImage.addTag(newImage,adiTag)
 		return jsonify(newImage.serialize()), 201
 
-@app.route('/imagesource/<int:image_id>', methods=['GET'])
-def imagesource_list(image_id):
+@app.route('/imagesource', methods=['GET'])
+def imagesource_find():
 	jsonImageSourceList = []
+	image = request.args.get('image', None, type=int)
 	name = request.args.get('name', "", type=str)
-	for imageSource in ctrImgSource.getList(image_id,name):
-		jsonImageSourceList.append(imageSource.serialize())
-	return jsonify(jsonImageSourceList), 200
+	if image is None:
+		return jsonify({}), 404
+	else:
+		for imageSource in ctrImgSource.getList(image,name):
+			jsonImageSourceList.append(imageSource.serialize())
+		return jsonify(jsonImageSourceList), 200
+
+@app.route('/imagesource/<int:id>', methods=['GET'])
+def imagesource_view(id):
+	imageSource = ctrImgSource.getById(id)
+	if imageSource is None:
+		return jsonify({}), 404
+	else:
+		return jsonify(imageSource.serialize())
 
 @app.route('/imagesource', methods=['POST'])
 def imagesource_create():
