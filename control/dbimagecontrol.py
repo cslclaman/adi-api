@@ -81,6 +81,9 @@ class ImageControl(Control):
         file_source = image.getFileSource()
         columns = "md5,file_path,tag_string,rating,active,file_size,creation_date,file_source"
         values = "\'{0}\',\'{1}\',\'{2}\',\'{3}\',{4},{5},\'{6}\',\'{7}\'".format(md5,file_path,tag_string,rating,active,file_size,creation_date,file_source)
+        if image.getSourceName() is not None:
+            columns = columns + ",source_name"
+            values = values + ",\'{0}\'".format(image.getSourceName())
         try:
             query = "INSERT INTO Image ({0}) VALUES ({1})".format(columns, values)
             self.cursor.execute(query)
