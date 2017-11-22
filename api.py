@@ -6,6 +6,7 @@ from control.dbtagcontrol import TagControl
 from control.dbaditagcontrol import AdiTagControl
 from model.tag import Tag
 from model.image import Image
+from model.imagesource import ImageSource
 from model.aditag import AdiTag
 import control.formats as formats
 
@@ -106,15 +107,15 @@ def imagesource_list(image_id):
 @app.route('/imagesource', methods=['POST'])
 def imagesource_create():
 	json = request.get_json()
-	newImgSource = Image(dict=json)
-	newImgSource = ctrImageSource.create(newImgSource)
+	newImgSource = ImageSource(dict=json)
+	newImgSource = ctrImgSource.create(newImgSource)
 	if newImgSource is None:
 		return jsonify({}), 404
 	else:
 		for tagName in newImgSource.getTagList():
 			tag = ctrTag.getByTagName(tagName)
 			if tag is not None:
-				ctrImageSource.addTag(newImgSource,tag)
+				ctrImgSource.addTag(newImgSource,tag)
 		return jsonify(newImgSource.serialize()), 201
 
 @app.route('/tag', methods=['GET'])
