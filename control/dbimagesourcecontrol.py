@@ -69,7 +69,7 @@ class ImageSourceControl(Control):
             columns += ",rating"
             values += ",\'{0}\'".format(imageSource.getRating())
         try:
-            query = "INSERT INTO Image ({0}) VALUES ({1})".format(columns, values)
+            query = "INSERT INTO Image_Source ({0}) VALUES ({1})".format(columns, values)
             self.cursor.execute(query)
             self.con.commit()
             newsource = self.getById(self.cursor.lastrowid)
