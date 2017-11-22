@@ -90,8 +90,8 @@ def image_create():
 		return jsonify({}), 404
 	else:
 		for tag in newImage.getTagList():
-			adiTag = ctrAdiTag.getByTagDictionary(tag)
-			print(tag + " => " + adiTag)
+			adiTag = ctrAdiTag.getByTagDictionary(formats.parseAdiTag(tag))
+			#print(tag + " => " + adiTag.)
 			if adiTag is not None:
 				ctrImage.addTag(newImage,adiTag)
 		return jsonify(newImage.serialize()), 201
